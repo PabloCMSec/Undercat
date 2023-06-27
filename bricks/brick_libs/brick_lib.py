@@ -1,5 +1,5 @@
 class Brick:
-    def __init__(self, brick_id ,brick_type, brick_color, points_per_hit):
+    def __init__(self, brick_id:str ,brick_type:str, brick_color:str, points_per_hit:list):
         self.brick_id = brick_id
         self.brick_type = brick_type
         self.brick_color = brick_color

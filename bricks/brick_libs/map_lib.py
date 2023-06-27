@@ -6,13 +6,15 @@ def _get_map_from_path(path: str):
         return json.load(path)
     
 class Map:
-    def __init__(self, map_id, map_type, map_color, map_path):
+    def __init__(self, map_id:str, map_type:str, map_color:str, map_path:str):
         self.map_id = map_id
         self.map_type = map_type
         self.map_color = map_color
         self.map_path = map_path
         self.map = _get_map_from_path(map_path)
-    
+
+    def __repr__(self):
+        return f'Map(id={self.map_id}, map_type={self.map_type}, map_color={self.map_color}, map={self.map})'
 
 map_basic = Map('basic','easy',(47,79,79), './brick_libs/maps/basic.json')
 
