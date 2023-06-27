@@ -17,6 +17,9 @@ pygame.display.set_caption('Bricks AI')
 
 arcade_font_path = 'media/fonts/source/arcade.ttf'
 font = pygame.font.Font(arcade_font_path, FONT_SIZE)
+font_score = pygame.font.Font(arcade_font_path, SCORE_FONT_SIZE)
+font_life = pygame.font.Font(arcade_font_path, LIFE_FONT_SIZE)
+font_time = pygame.font.Font(arcade_font_path, TIME_FONT_SIZE)
 button_font = pygame.font.Font(arcade_font_path, BUTTON_FONT_SIZE)
 
 current_map = map_library['basic']  
@@ -26,16 +29,16 @@ show_map_selection = False
 def draw_window():
     win.fill(DARK_GRAY)
 
-    pygame.draw.rect(win, LIGHT_GRAY, (50, 50, 200, 50))
-    pygame.draw.rect(win, LIGHT_GRAY, (300, 50, 200, 50))
-    pygame.draw.rect(win, LIGHT_GRAY, (550, 50, 200, 50))
+    pygame.draw.rect(win, LIGHT_GRAY, (40, 50, 230, 60))
+    pygame.draw.rect(win, LIGHT_GRAY, (280, 50, 230, 60))
+    pygame.draw.rect(win, LIGHT_GRAY, (520, 50, 230, 60))
 
-    time_text = font.render('Tiempo: 00:00', True, LIGHT_BLUE)
-    lives_text = font.render('Vidas: 3', True, WHITE)
-    score_text = font.render('Score: 0', True, RED)
-    win.blit(time_text, (60, 60))
-    win.blit(lives_text, (310, 60))
-    win.blit(score_text, (560, 60))
+    time_text = font_time.render('Tiempo: 00:00', True, LIGHT_BLUE)
+    lives_text = font_life.render('Vidas: 3', True, WHITE)
+    score_text = font_score.render('Score: 0', True, RED)
+    win.blit(time_text, (50, 60))
+    win.blit(lives_text, (290, 60))
+    win.blit(score_text, (530, 60))
 
     pygame.draw.rect(win, current_map.map_color, (50, 150, 700, 900))
 
