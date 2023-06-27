@@ -1,45 +1,21 @@
 import pygame
 from pygame.locals import *
-from brick_libs.brick_lib import brick_library
+from brick_libs.brick_lib import brick_library, get_brick_by_id
 from brick_libs.map_lib import map_library
+from utils import load_image, play_sound, calculate_score
+from constants import *
+from brick_libs.ui_lib import draw_buttons, draw_map_selection, draw_close_button, handle_button_click, handle_map_selection_click, buttons, map_selection_buttons, map_buttons
 
 pygame.init()
 
-win = pygame.display.set_mode((800, 1200))
+win = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)  # Modificado para desactivar el reescalado y maximizar
 pygame.display.set_caption('Bricks AI')  # Título de la ventana
 
-font = pygame.font.Font(None, 30)
-button_font = pygame.font.Font(None, 25)
+font = pygame.font.Font(None, FONT_SIZE)
+button_font = pygame.font.Font(None, BUTTON_FONT_SIZE)
 
-# Define los colores
-white = (255, 255, 255)
-dark_gray = (200, 200, 200)
-light_gray = (70, 70, 70)
-red = (255, 0, 0)
-light_blue = (173, 216, 230)
-orange = (255, 165, 0)
-green = (0, 255, 0)
-purple = (128, 0, 128)
-map_button_color = (50, 50, 50)
-selected_map_button_color = (80, 80, 80)
 
-button_spacing = 30
-button_width = 150
-buttons = {
-    'Comenzar': {'color': orange, 'rect': pygame.Rect(50, 1100, button_width, 50)},
-    'Mapa': {'color': green, 'rect': pygame.Rect(50 + button_width + button_spacing, 1100, button_width, 50)},
-    'TODO': {'color': purple, 'rect': pygame.Rect(50 + 2*(button_width + button_spacing), 1100, button_width, 50)},
-    'Log': {'color': white, 'rect': pygame.Rect(50 + 3*(button_width + button_spacing), 1100, button_width, 50)},
-}
 
-map_selection_buttons = {
-    'Aceptar': {'color': green, 'rect': pygame.Rect(350, 650, 100, 50)},
-    'Cancelar': {'color': red, 'rect': pygame.Rect(350, 700, 100, 50)},
-}
-
-map_buttons = {}
-for i, map_id in enumerate(map_library.keys()):
-    map_buttons[map_id] = {'color': map_button_color, 'rect': pygame.Rect(300, 250 + i * 60, 200, 50)}
 
 current_map = map_library['basic']  # El mapa que se está jugando
 selected_map = None  # El mapa que se ha seleccionado en la pantalla de selección de mapa
@@ -52,66 +28,40 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            if show_map_selection:
+            if x > WINDOW_WIDTH - 50 and y < 50:  # Verificar si se hizo clic en el botón de cerrar
+                running = False
+            elif show_map_selection:
                 for button, info in map_selection_buttons.items():
                     if info['rect'].collidepoint(x, y):
-                        if button == 'Aceptar':
-                            if selected_map is not None:
-                                current_map = map_library[selected_map]
-                            show_map_selection = False
-                        elif button == 'Cancelar':
-                            show_map_selection = False
+                        current_map, selected_map, show_map_selection = handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library)
                 for map_id, info in map_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         selected_map = map_id
                         for id, button in map_buttons.items():
-                            button['color'] = map_button_color if id != selected_map else selected_map_button_color
+                            button['color'] = MAP_BUTTON_COLOR if id != selected_map else SELECTED_MAP_BUTTON_COLOR
             else:
                 for button, info in buttons.items():
                     if info['rect'].collidepoint(x, y):
-                        if button == 'Mapa':
-                            show_map_selection = True
-                        else:
-                            print(f'{button} ha sido pulsado')
+                        show_map_selection = handle_button_click(buttons, button)
 
-    win.fill(dark_gray)
+    win.fill(DARK_GRAY)
 
-    pygame.draw.rect(win, light_gray, (50, 50, 200, 50))
-    pygame.draw.rect(win, light_gray, (300, 50, 200, 50))
-    pygame.draw.rect(win, light_gray, (550, 50, 200, 50))
+    pygame.draw.rect(win, LIGHT_GRAY, (50, 50, 200, 50))
+    pygame.draw.rect(win, LIGHT_GRAY, (300, 50, 200, 50))
+    pygame.draw.rect(win, LIGHT_GRAY, (550, 50, 200, 50))
 
-    time_text = font.render('Tiempo: 00:00', True, light_blue)
-    lives_text = font.render('Vidas: 3', True, white)
-    score_text = font.render('Puntuación: 0', True, red)
+    time_text = font.render('Tiempo: 00:00', True, LIGHT_BLUE)
+    lives_text = font.render('Vidas: 3', True, WHITE)
+    score_text = font.render('Puntuación: 0', True, RED)
     win.blit(time_text, (60, 60))
     win.blit(lives_text, (310, 60))
     win.blit(score_text, (560, 60))
 
     pygame.draw.rect(win, current_map.map_color, (50, 150, 700, 900))
 
-    mouse_pos = pygame.mouse.get_pos()
-    for button, info in buttons.items():
-        if info['rect'].collidepoint(mouse_pos):
-            pygame.draw.rect(win, info['color'], info['rect'])
-            button_text = button_font.render(button, True, light_gray)
-        else:
-            pygame.draw.rect(win, light_gray, info['rect'])
-            button_text = button_font.render(button, True, info['color'])
-        button_text_rect = button_text.get_rect(center=info['rect'].center)
-        win.blit(button_text, button_text_rect)
-
-    if show_map_selection:
-        pygame.draw.rect(win, light_gray, (250, 200, 300, 600))
-        for button, info in map_selection_buttons.items():
-            pygame.draw.rect(win, info['color'], info['rect'])
-            button_text = button_font.render(button, True, dark_gray)
-            button_text_rect = button_text.get_rect(center=info['rect'].center)
-            win.blit(button_text, button_text_rect)
-        for map_id, info in map_buttons.items():
-            pygame.draw.rect(win, info['color'], info['rect'])
-            map_text = button_font.render(map_id, True, dark_gray)
-            map_text_rect = map_text.get_rect(center=info['rect'].center)
-            win.blit(map_text, map_text_rect)
+    draw_buttons(win, buttons, button_font)
+    draw_map_selection(win, show_map_selection, map_selection_buttons, map_buttons, button_font)
+    draw_close_button(win)  # Dibujar el botón de cerrar
 
     pygame.display.flip()
 
