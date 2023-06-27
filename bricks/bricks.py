@@ -1,4 +1,8 @@
 import pygame
+from pygame.locals import *
+from brick_libs.brick_lib import brick_library
+from brick_libs.map_lib import map_library
+
 pygame.init()
 
 win = pygame.display.set_mode((800, 1200))
@@ -22,8 +26,8 @@ button_spacing = 30
 button_width = 150
 buttons = {
     'Comenzar': {'color': orange, 'rect': pygame.Rect(50, 1100, button_width, 50)},
-    'TODO1': {'color': green, 'rect': pygame.Rect(50 + button_width + button_spacing, 1100, button_width, 50)},
-    'TODO2': {'color': purple, 'rect': pygame.Rect(50 + 2*(button_width + button_spacing), 1100, button_width, 50)},
+    'Mapa': {'color': green, 'rect': pygame.Rect(50 + button_width + button_spacing, 1100, button_width, 50)},
+    'TODO': {'color': purple, 'rect': pygame.Rect(50 + 2*(button_width + button_spacing), 1100, button_width, 50)},
     'Log': {'color': white, 'rect': pygame.Rect(50 + 3*(button_width + button_spacing), 1100, button_width, 50)},
 }
 
@@ -36,7 +40,10 @@ while running:
             x, y = event.pos
             for button, info in buttons.items():
                 if info['rect'].collidepoint(x, y):
-                    print(f'{button} ha sido pulsado')
+                    if button == 'Mapa':
+                        print(map_library)  # Imprime la biblioteca de mapas cuando se presiona el botón de mapa
+                    else:
+                        print(f'{button} ha sido pulsado')
 
     # Llena el fondo con gris oscuro
     win.fill(dark_gray)

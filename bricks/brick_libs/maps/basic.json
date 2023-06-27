@@ -1,9 +1,9 @@
 {
     "name" :"basic",
     "map":[
-        ["id1","id3","id1","id2","id3","id2","id1","id3"],
-        ["id2","id3","id2","id1","id3","id2","id3","id2"],
-        ["id3","id1","id2","id3","id1","id3","id2","id3"],
+        ["red","blue","red","green","blue","green","red","blue"],
+        ["green","blue","green","red","blue","green","blue","green"],
+        ["blue","red","green","blue","red","blue","green","blue"],
         ["","","","","","","",""],
         ["","","","","","","",""],
         ["","","","","","","",""],
