@@ -31,6 +31,9 @@ buttons = {
     'Log': {'color': white, 'rect': pygame.Rect(50 + 3*(button_width + button_spacing), 1100, button_width, 50)},
 }
 
+# Referencia al mapa básico
+current_map = map_library['basic']
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -61,8 +64,8 @@ while running:
     win.blit(lives_text, (310, 60))  # Dibuja el nuevo texto de vidas
     win.blit(score_text, (560, 60))
 
-    # Dibuja el cuadro de juego.
-    pygame.draw.rect(win, white, (50, 150, 700, 900))
+    # Dibuja el cuadro de juego con el color del mapa actual
+    pygame.draw.rect(win, current_map.map_color, (50, 150, 700, 900))
 
     # Dibuja los botones.
     mouse_pos = pygame.mouse.get_pos()

@@ -32,7 +32,9 @@ class Map:
         return f'Map(id={self.map_id}, map_type={self.map_type}, map_color={self.map_color}, map={self.map})'
 
 map_basic = Map('basic','easy',(47,79,79), './brick_libs/maps/basic.json')
+map_fork = Map('fork','easy',(102,0,51), './brick_libs/maps/fork.json')
 
 map_library={
-    map_basic.map_id : map_basic
+    map_basic.map_id : map_basic,
+    map_fork.map_id : map_fork
 }

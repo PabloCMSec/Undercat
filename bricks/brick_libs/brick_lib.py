@@ -6,7 +6,7 @@ class Brick:
         self.points_per_hit = points_per_hit  # Array con los puntos por cada toque
     
     def __repr__(self):
-        return f"Brick(id={self.brick_id}, type={self.brick_type}, color={self.brick_color}, points_per_hit={self.points_per_hit})"
+        return f"Brick(brick_id={self.brick_id}, brick_type={self.brick_type}, brick_color={self.brick_color}, points_per_hit={self.points_per_hit})"
 
 # Crear una biblioteca de bricks
 brick_red = Brick('red','normal', (255, 0, 0), [10])
