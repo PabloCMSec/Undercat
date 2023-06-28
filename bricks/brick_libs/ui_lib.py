@@ -58,11 +58,11 @@ def handle_button_click(buttons, button):
     else:
         print(f'{button} ha sido pulsado')
 
-
 def handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library):
     if button == 'Aceptar':
         if selected_map is not None:
             current_map = map_library[selected_map]
+            print(current_map)  # Imprime el mapa que se ha cargado
         show_map_selection = False
     elif button == 'Cancelar':
         show_map_selection = False

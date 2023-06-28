@@ -6,19 +6,22 @@ def _get_bricks_from_map(map):
     for row in map:
         final_col=[]
         for i in row:
-            final_col.append(get_brick_by_id(i))
+            brick = None
+            if i != "":
+                brick = get_brick_by_id(i)
+            final_col.append(brick)
         final_map.append(final_col)
-    return final_map  # Devuelve la matriz final de ladrillos
+    return final_map
 
 def _get_map_from_path(path: str):
     with open(path) as file:
         return json.load(file)
-    
+
 def _fill_map_with_bricks(path:str):
     loaded_map = _get_map_from_path(path)
-    loaded_bricks = _get_bricks_from_map(loaded_map['map'])  # Accede a la clave 'map'
-    loaded_map['map'] = loaded_bricks  # Asigna loaded_bricks a la clave 'map'
-    return loaded_map['map']  # Devuelve la matriz de ladrillos
+    loaded_bricks = _get_bricks_from_map(loaded_map['map'])
+    loaded_map['map'] = loaded_bricks
+    return loaded_map
 
 class Map:
     def __init__(self, map_id:str, map_type:str, map_color:str, map_path:str):
