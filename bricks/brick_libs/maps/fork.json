@@ -1,6 +1,8 @@
 {
     "name" :"fork",
-    "map":[
+    "ball": ["basic"],
+    "racket": ["basic"],
+    "map": [
         ["blue","red","green","blue","red","blue","green","blue"],
         ["red","blue","red","green","blue","green","red","blue"],
         ["green","blue","green","red","blue","green","blue","green"],

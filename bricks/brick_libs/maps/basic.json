@@ -1,6 +1,8 @@
 {
     "name" :"basic",
-    "map":[
+    "ball": ["basic"],
+    "racket": ["basic"],
+    "map": [
         ["red","blue","red","green","blue","green","red","blue"],
         ["green","blue","green","red","blue","green","blue","green"],
         ["blue","red","green","blue","red","blue","green","blue"],

@@ -11,7 +11,7 @@ pygame.init()
 win = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.NOFRAME)
 pygame.display.set_caption('Bricks AI')
 
-arcade_font_path = 'media/fonts/source/arcade.ttf'
+arcade_font_path = 'media/fonts/arcade.ttf'
 font = pygame.font.Font(arcade_font_path, FONT_SIZE)
 font_score = pygame.font.Font(arcade_font_path, SCORE_FONT_SIZE)
 font_life = pygame.font.Font(arcade_font_path, LIFE_FONT_SIZE)
