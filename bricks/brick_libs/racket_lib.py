@@ -8,7 +8,7 @@ class Racket:
     def __repr__(self) -> str:
         return f"Racket(racket_id={self.racket_id}, racket_len={self.racket_len}, color={self.color}, speed={self.speed})"
 
-racket_basic = Racket("basic", 30, (255, 128, 0), 10)
+racket_basic = Racket("basic", 112, (255, 128, 0), 10)
 
 racket_library = {
     racket_basic.racket_id : racket_basic

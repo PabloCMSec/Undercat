@@ -43,6 +43,18 @@ def draw_window():
     draw_map_selection(win, show_map_selection, map_selection_buttons, map_buttons, button_font)
     draw_close_button(win)
 
+def draw_racket(map_rect, cell_height):
+    racket = current_map.map_racket[0]
+    racket_color = racket.color
+    racket_len = racket.racket_len  # Esta es la longitud de tu raqueta
+
+    racket_y_position = map_rect.bottom - cell_height
+
+    racket_rect = pygame.Rect((WINDOW_WIDTH - racket_len) // 2, racket_y_position, racket_len, cell_height)
+
+    pygame.draw.rect(win, racket_color, racket_rect)
+
+
 def draw_map():
     rows = len(current_map.map)
     cols = len(current_map.map[0])
@@ -58,6 +70,7 @@ def draw_map():
                 brick_color = brick.brick_color
                 brick_rect = pygame.Rect(map_rect.left + x * cell_width, map_rect.top + y * cell_height, cell_width, cell_height)
                 pygame.draw.rect(win, brick_color, brick_rect)
+    draw_racket(map_rect, cell_height)
 
 running = True
 while running:
