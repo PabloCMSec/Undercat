@@ -19,6 +19,7 @@ font_time = pygame.font.Font(arcade_font_path, TIME_FONT_SIZE)
 button_font = pygame.font.Font(arcade_font_path, BUTTON_FONT_SIZE)
 
 current_map = map_library['basic']
+racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
 selected_map = None
 show_map_selection = False
 
@@ -44,17 +45,16 @@ def draw_window():
     draw_close_button(win)
 
 def draw_racket(map_rect, cell_height):
+    global racket_x_position
     racket = current_map.map_racket[0]
     racket_color = racket.color
     racket_len = racket.racket_len  # Esta es la longitud de tu raqueta
-    racket_x_position = racket.x  # Esta es la posición horizontal de tu raqueta
 
     racket_y_position = map_rect.bottom - cell_height
 
     racket_rect = pygame.Rect(racket_x_position, racket_y_position, racket_len, cell_height)
 
     pygame.draw.rect(win, racket_color, racket_rect)
-
 
 
 def draw_map():
@@ -76,14 +76,18 @@ def draw_map():
 
 running = True
 while running:
+    keys = pygame.key.get_pressed()  # Get the state of all keyboard keys
+    if keys[pygame.K_LEFT]:
+        racket_x_position -= current_map.map_racket[0].speed  # Move the racket to the left if the left arrow key is pressed
+        if racket_x_position < 50:  # Check if the racket is out of bounds
+            racket_x_position = 50
+    if keys[pygame.K_RIGHT]:
+        racket_x_position += current_map.map_racket[0].speed  # Move the racket to the right if the right arrow key is pressed
+        if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:  # Check if the racket is out of bounds
+            racket_x_position = WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:  # Nuevo código
-            if event.key == pygame.K_LEFT:  # Si se presiona la flecha izquierda
-                current_map.map_racket[0].move(-1)  # Mover la raqueta a la izquierda
-            elif event.key == pygame.K_RIGHT:  # Si se presiona la flecha derecha
-                current_map.map_racket[0].move(1)  # Mover la raqueta a la derecha
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             if x > WINDOW_WIDTH - 50 and y < 50:
