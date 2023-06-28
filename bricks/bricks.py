@@ -47,12 +47,14 @@ def draw_racket(map_rect, cell_height):
     racket = current_map.map_racket[0]
     racket_color = racket.color
     racket_len = racket.racket_len  # Esta es la longitud de tu raqueta
+    racket_x_position = racket.x  # Esta es la posición horizontal de tu raqueta
 
     racket_y_position = map_rect.bottom - cell_height
 
-    racket_rect = pygame.Rect((WINDOW_WIDTH - racket_len) // 2, racket_y_position, racket_len, cell_height)
+    racket_rect = pygame.Rect(racket_x_position, racket_y_position, racket_len, cell_height)
 
     pygame.draw.rect(win, racket_color, racket_rect)
+
 
 
 def draw_map():
@@ -77,6 +79,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:  # Nuevo código
+            if event.key == pygame.K_LEFT:  # Si se presiona la flecha izquierda
+                current_map.map_racket[0].move(-1)  # Mover la raqueta a la izquierda
+            elif event.key == pygame.K_RIGHT:  # Si se presiona la flecha derecha
+                current_map.map_racket[0].move(1)  # Mover la raqueta a la derecha
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             if x > WINDOW_WIDTH - 50 and y < 50:
