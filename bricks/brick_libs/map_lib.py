@@ -29,13 +29,13 @@ class Map:
         self.map_type = map_type
         self.map_color = map_color
         self.map_path = map_path
-        self.map = _fill_map_with_bricks(map_path)
+        self.map = _fill_map_with_bricks(map_path)["map"]
 
     def __repr__(self):
         return f'Map(id={self.map_id}, map_type={self.map_type}, map_color={self.map_color}, map={self.map})'
 
 map_basic = Map('basic','easy',(47,79,79), './brick_libs/maps/basic.json')
-map_fork = Map('fork','easy',(102,0,51), './brick_libs/maps/fork.json')
+map_fork = Map('fork','easy',(51,0,25), './brick_libs/maps/fork.json')
 
 map_library={
     map_basic.map_id : map_basic,

@@ -1,14 +1,10 @@
 import pygame
 from pygame.locals import *
-
-from brick_libs.brick_lib import brick_library, get_brick_by_id
-from brick_libs.map_lib import map_library
-from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button, 
-                               handle_button_click, handle_map_selection_click, 
-                               buttons, map_selection_buttons, map_buttons)
-
 from constants import *
-from utils import load_image, play_sound, calculate_score
+from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
+                               handle_button_click, handle_map_selection_click,
+                               buttons, map_selection_buttons, map_buttons)
+from brick_libs.map_lib import map_library
 
 pygame.init()
 
@@ -22,9 +18,9 @@ font_life = pygame.font.Font(arcade_font_path, LIFE_FONT_SIZE)
 font_time = pygame.font.Font(arcade_font_path, TIME_FONT_SIZE)
 button_font = pygame.font.Font(arcade_font_path, BUTTON_FONT_SIZE)
 
-current_map = map_library['basic']  
-selected_map = None  
-show_map_selection = False  
+current_map = map_library['basic']
+selected_map = None
+show_map_selection = False
 
 def draw_window():
     win.fill(DARK_GRAY)
@@ -41,10 +37,27 @@ def draw_window():
     win.blit(score_text, (530, 60))
 
     pygame.draw.rect(win, current_map.map_color, (50, 150, 700, 900))
+    draw_map()
 
     draw_buttons(win, buttons, button_font)
     draw_map_selection(win, show_map_selection, map_selection_buttons, map_buttons, button_font)
     draw_close_button(win)
+
+def draw_map():
+    rows = len(current_map.map)
+    cols = len(current_map.map[0])
+    cell_width = 700 // cols
+    cell_height = 900 // rows
+
+    map_rect = pygame.Rect(50, 150, 700, 900)
+
+    for y in range(rows):
+        for x in range(cols):
+            brick = current_map.map[y][x]
+            if brick is not None:
+                brick_color = brick.brick_color
+                brick_rect = pygame.Rect(map_rect.left + x * cell_width, map_rect.top + y * cell_height, cell_width, cell_height)
+                pygame.draw.rect(win, brick_color, brick_rect)
 
 running = True
 while running:
@@ -53,7 +66,7 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            if x > WINDOW_WIDTH - 50 and y < 50:  
+            if x > WINDOW_WIDTH - 50 and y < 50:
                 running = False
             elif show_map_selection:
                 for button, info in map_selection_buttons.items():
