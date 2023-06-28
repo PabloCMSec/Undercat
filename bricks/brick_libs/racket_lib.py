@@ -13,8 +13,8 @@ class Racket:
 
     def move(self, direction):
         self.x += self.speed * direction
-        self.x = max(0, min(WINDOW_WIDTH - self.racket_len, self.x))  # Asegura que la raqueta no se salga de la pantalla
-
+        self.x = max(GAME_ZONE_X, min(GAME_ZONE_X + GAME_ZONE_WIDTH - self.racket_len, self.x))
+        
 racket_basic = Racket("basic", 112, (255, 128, 0), 10)
 
 racket_library = {

@@ -18,6 +18,11 @@ BUTTON_WIDTH = 150
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 1200
 
+# Dimensiones zona de juego
+GAME_ZONE_X = 50  # La zona de juego comienza en el pixel 50
+GAME_ZONE_WIDTH = 700  # La zona de juego tiene 700 pixels de ancho
+
+
 # Fuentes
 FONT_SIZE = 36
 TIME_FONT_SIZE = 39
