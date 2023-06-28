@@ -1,7 +1,7 @@
 from constants import *
 
 class Racket:
-    def __init__(self, racket_id: str, racket_len: int, color: str, speed: int) -> None:
+    def __init__(self, racket_id: str, racket_len: int, color: str, speed: float) -> None:
         self.racket_id = racket_id
         self.racket_len = racket_len  # pixel
         self.color = color
@@ -14,8 +14,8 @@ class Racket:
     def move(self, direction):
         self.x += self.speed * direction
         self.x = max(GAME_ZONE_X, min(GAME_ZONE_X + GAME_ZONE_WIDTH - self.racket_len, self.x))
-        
-racket_basic = Racket("basic", 112, (255, 128, 0), 10)
+
+racket_basic = Racket("basic", 112, (255, 128, 0), 1)
 
 racket_library = {
     racket_basic.racket_id : racket_basic
