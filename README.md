@@ -13,7 +13,7 @@
    *    Install python pip: ```sudo apt install python3-pip```
    *    Install venv: ```python -m venv env```
    *    Utilize venv: ```source env/bin/activate```
-   *    Install repository requirements: ``` ```
+   *    Install repository requirements: ``` pip install pygame json ```
 ### How to
 
 
