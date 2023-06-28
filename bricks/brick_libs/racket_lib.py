@@ -13,3 +13,9 @@ racket_basic = Racket("basic", 30, (255, 128, 0), 10)
 racket_library = {
     racket_basic.racket_id : racket_basic
 }
+
+def get_racket_by_id(racket_id:str) -> dict:
+    if racket_id in racket_library:
+        return racket_library[racket_id]
+    else:
+        return None

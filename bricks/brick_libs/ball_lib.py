@@ -12,3 +12,9 @@ ball_basic = Ball("basic", 10, (255, 204, 255))
 ball_library = {
     ball_basic.ball_id : ball_basic
 }
+
+def get_ball_by_id(ball_id:str) -> dict:
+    if ball_id in ball_library:
+        return ball_library[ball_id]
+    else:
+        return None
