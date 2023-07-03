@@ -19,9 +19,22 @@ font_time = pygame.font.Font(arcade_font_path, TIME_FONT_SIZE)
 button_font = pygame.font.Font(arcade_font_path, BUTTON_FONT_SIZE)
 
 current_map = map_library['basic']
-racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
 selected_map = None
 show_map_selection = False
+show_start_label = True
+game_started = False
+
+racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
+
+start_label_font = pygame.font.Font(arcade_font_path, 100)
+start_label = start_label_font.render("COMENZAR", True, WHITE)
+start_label_rect = start_label.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+
+def center_racket():
+    global racket_x_position
+    racket = current_map.map_racket[0]
+    racket_len = racket.racket_len
+    racket_x_position = (WINDOW_WIDTH - racket_len) // 2
 
 def draw_window():
     win.fill(DARK_GRAY)
@@ -44,6 +57,9 @@ def draw_window():
     draw_map_selection(win, show_map_selection, map_selection_buttons, map_buttons, button_font)
     draw_close_button(win)
 
+    if show_start_label:
+        win.blit(start_label, start_label_rect)
+
 def draw_racket(map_rect, cell_height):
     global racket_x_position
     racket = current_map.map_racket[0]
@@ -63,8 +79,9 @@ def draw_ball(map_rect, cell_height):
     ball_x = racket_x_position + current_map.map_racket[0].racket_len // 2
     ball_y = map_rect.bottom - cell_height - ball_radius
 
-    ball_rect = pygame.Rect(ball_x - ball_radius, ball_y - ball_radius, ball_radius * 2, ball_radius * 2)
-    pygame.draw.circle(win, ball_color, ball_rect.center, ball_radius)
+    ball_pos = (ball_x, ball_y)
+
+    pygame.draw.circle(win, ball_color, ball_pos, ball_radius)
 
 def draw_map():
     rows = len(current_map.map)
@@ -87,14 +104,20 @@ def draw_map():
 running = True
 while running:
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        racket_x_position -= current_map.map_racket[0].speed
-        if racket_x_position < 50:
-            racket_x_position = 50
-    if keys[pygame.K_RIGHT]:
-        racket_x_position += current_map.map_racket[0].speed
-        if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:
-            racket_x_position = WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50
+    if keys[pygame.K_SPACE] and show_start_label:
+        show_start_label = False
+        game_started = True
+
+    if game_started:
+        if keys[pygame.K_LEFT]:
+            racket_x_position -= current_map.map_racket[0].speed
+            if racket_x_position < 50:
+                racket_x_position = 50
+        if keys[pygame.K_RIGHT]:
+            racket_x_position += current_map.map_racket[0].speed
+            if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:
+                racket_x_position = WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -106,6 +129,9 @@ while running:
                 for button, info in map_selection_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         current_map, selected_map, show_map_selection = handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library)
+                        show_start_label = True
+                        game_started = False
+                        center_racket()
                 for map_id, info in map_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         selected_map = map_id
@@ -115,6 +141,9 @@ while running:
                 for button, info in buttons.items():
                     if info['rect'].collidepoint(x, y):
                         show_map_selection = handle_button_click(buttons, button)
+                        show_start_label = True
+                        game_started = False
+                        center_racket()
 
     draw_window()
     pygame.display.flip()
