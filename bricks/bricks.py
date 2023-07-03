@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.locals import *
 from constants import *
 from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
@@ -23,6 +24,8 @@ selected_map = None
 show_map_selection = False
 show_start_label = True
 game_started = False
+start_time = 0
+elapsed_time = 0
 
 racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
 
@@ -36,6 +39,11 @@ def center_racket():
     racket_len = racket.racket_len
     racket_x_position = (WINDOW_WIDTH - racket_len) // 2
 
+def format_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds % 60
+    return f'{minutes:02d}:{seconds:02d}'
+
 def draw_window():
     win.fill(DARK_GRAY)
 
@@ -43,7 +51,7 @@ def draw_window():
     pygame.draw.rect(win, LIGHT_GRAY, (280, 50, 230, 60))
     pygame.draw.rect(win, LIGHT_GRAY, (520, 50, 230, 60))
 
-    time_text = font_time.render('Tiempo: 00:00', True, LIGHT_BLUE)
+    time_text = font_time.render(f'Tiempo: {format_time(elapsed_time)}', True, LIGHT_BLUE)
     lives_text = font_life.render('Vidas: 3', True, WHITE)
     score_text = font_score.render('Score: 0', True, RED)
     win.blit(time_text, (50, 60))
@@ -73,9 +81,11 @@ def draw_racket(map_rect, cell_height):
     pygame.draw.rect(win, racket_color, racket_rect)
 
 def draw_ball(map_rect, cell_height):
+    global racket_x_position
     ball = current_map.map_ball[0]
-    ball_color = ball.color
     ball_radius = ball.radius
+    ball_color = ball.color
+
     ball_x = racket_x_position + current_map.map_racket[0].racket_len // 2
     ball_y = map_rect.bottom - cell_height - ball_radius
 
@@ -107,8 +117,10 @@ while running:
     if keys[pygame.K_SPACE] and show_start_label:
         show_start_label = False
         game_started = True
+        start_time = time.time()
 
     if game_started:
+        elapsed_time = int(time.time() - start_time)
         if keys[pygame.K_LEFT]:
             racket_x_position -= current_map.map_racket[0].speed
             if racket_x_position < 50:
