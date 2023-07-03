@@ -48,7 +48,7 @@ def draw_racket(map_rect, cell_height):
     global racket_x_position
     racket = current_map.map_racket[0]
     racket_color = racket.color
-    racket_len = racket.racket_len  # Esta es la longitud de tu raqueta
+    racket_len = racket.racket_len
 
     racket_y_position = map_rect.bottom - cell_height
 
@@ -56,6 +56,15 @@ def draw_racket(map_rect, cell_height):
 
     pygame.draw.rect(win, racket_color, racket_rect)
 
+def draw_ball(map_rect, cell_height):
+    ball = current_map.map_ball[0]
+    ball_color = ball.color
+    ball_radius = ball.radius
+    ball_x = racket_x_position + current_map.map_racket[0].racket_len // 2
+    ball_y = map_rect.bottom - cell_height - ball_radius
+
+    ball_rect = pygame.Rect(ball_x - ball_radius, ball_y - ball_radius, ball_radius * 2, ball_radius * 2)
+    pygame.draw.circle(win, ball_color, ball_rect.center, ball_radius)
 
 def draw_map():
     rows = len(current_map.map)
@@ -73,17 +82,18 @@ def draw_map():
                 brick_rect = pygame.Rect(map_rect.left + x * cell_width, map_rect.top + y * cell_height, cell_width, cell_height)
                 pygame.draw.rect(win, brick_color, brick_rect)
     draw_racket(map_rect, cell_height)
+    draw_ball(map_rect, cell_height)
 
 running = True
 while running:
-    keys = pygame.key.get_pressed()  # Get the state of all keyboard keys
+    keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        racket_x_position -= current_map.map_racket[0].speed  # Move the racket to the left if the left arrow key is pressed
-        if racket_x_position < 50:  # Check if the racket is out of bounds
+        racket_x_position -= current_map.map_racket[0].speed
+        if racket_x_position < 50:
             racket_x_position = 50
     if keys[pygame.K_RIGHT]:
-        racket_x_position += current_map.map_racket[0].speed  # Move the racket to the right if the right arrow key is pressed
-        if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:  # Check if the racket is out of bounds
+        racket_x_position += current_map.map_racket[0].speed
+        if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:
             racket_x_position = WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
