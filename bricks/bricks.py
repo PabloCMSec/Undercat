@@ -6,6 +6,10 @@ from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_butt
                                handle_button_click, handle_map_selection_click,
                                buttons, map_selection_buttons, map_buttons)
 from brick_libs.map_lib import map_library
+from brick_libs.ball_lib import Ball
+from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
+from brick_libs.racket_lib import set_racket_pos, set_racket_size
+from brick_libs.ball_physics import BallPhysics
 
 pygame.init()
 
@@ -20,6 +24,8 @@ font_time = pygame.font.Font(arcade_font_path, TIME_FONT_SIZE)
 button_font = pygame.font.Font(arcade_font_path, BUTTON_FONT_SIZE)
 
 current_map = map_library['basic']
+ball = current_map.map_ball[0]
+
 selected_map = None
 show_map_selection = False
 show_start_label = True
@@ -73,8 +79,9 @@ def draw_racket(map_rect, cell_height):
     racket = current_map.map_racket[0]
     racket_color = racket.color
     racket_len = racket.racket_len
-
+    set_racket_size(racket,racket_len,cell_height)
     racket_y_position = map_rect.bottom - cell_height
+    set_racket_pos = (racket_x_position, racket_y_position)
 
     racket_rect = pygame.Rect(racket_x_position, racket_y_position, racket_len, cell_height)
 
@@ -96,20 +103,26 @@ def draw_ball(map_rect, cell_height):
 def draw_map():
     rows = len(current_map.map)
     cols = len(current_map.map[0])
-    cell_width = 700 // cols
-    cell_height = 900 // rows
+    cell_width = (GAME_ZONE_WIDTH // cols)
+    cell_height = (GAME_ZONE_HEIGHT // rows)
 
-    map_rect = pygame.Rect(50, 150, 700, 900)
+    map_rect = pygame.Rect(GAME_ZONE_X, GAME_ZONE_Y, GAME_ZONE_WIDTH, GAME_ZONE_HEIGHT)
 
     for y in range(rows):
         for x in range(cols):
             brick = current_map.map[y][x]
             if brick is not None:
+                set_brick_index(brick, x, y)
+                set_brick_pos(brick, map_rect.left + x * cell_width, map_rect.top + y * cell_height)
+                set_brick_size(brick, cell_width, cell_height)
+                current_map.map[y][x] = brick
                 brick_color = brick.brick_color
-                brick_rect = pygame.Rect(map_rect.left + x * cell_width, map_rect.top + y * cell_height, cell_width, cell_height)
+                brick_rect = pygame.Rect(brick.x_left, brick.y_top, brick.width, brick.height)
                 pygame.draw.rect(win, brick_color, brick_rect)
     draw_racket(map_rect, cell_height)
     draw_ball(map_rect, cell_height)
+   
+ball_physics = BallPhysics(current_map, ball, current_map.map_racket[0], current_map.map)
 
 running = True
 while running:
@@ -118,17 +131,18 @@ while running:
         show_start_label = False
         game_started = True
         start_time = time.time()
+        ball_physics.start_movement()
 
     if game_started:
         elapsed_time = int(time.time() - start_time)
         if keys[pygame.K_LEFT]:
             racket_x_position -= current_map.map_racket[0].speed
-            if racket_x_position < 50:
-                racket_x_position = 50
+            if racket_x_position < GAME_ZONE_X:
+                racket_x_position = GAME_ZONE_X
         if keys[pygame.K_RIGHT]:
             racket_x_position += current_map.map_racket[0].speed
-            if racket_x_position > WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50:
-                racket_x_position = WINDOW_WIDTH - current_map.map_racket[0].racket_len - 50
+            if racket_x_position > GAME_ZONE_X + GAME_ZONE_WIDTH - current_map.map_racket[0].racket_len:
+                racket_x_position = GAME_ZONE_X + GAME_ZONE_WIDTH - current_map.map_racket[0].racket_len
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -157,6 +171,7 @@ while running:
                         game_started = False
                         center_racket()
 
+    ball_physics.update()  # Actualizar la posición de la bola
     draw_window()
     pygame.display.flip()
 
