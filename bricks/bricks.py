@@ -5,7 +5,7 @@ from constants import *
 from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
                                handle_button_click, handle_map_selection_click,
                                buttons, map_selection_buttons, map_buttons)
-from brick_libs.game_lib import (center_racket, format_time)
+from brick_libs.game_lib import (center_racket, format_time, draw_racket)
 from brick_libs.map_lib import map_library
 from brick_libs.ball_lib import Ball
 from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
@@ -64,19 +64,6 @@ def draw_window():
     if show_start_label:
         win.blit(start_label, start_label_rect)
 
-def draw_racket(map_rect, cell_height):
-    global racket_x_position
-    racket = current_map.map_racket[0]
-    racket_color = racket.color
-    racket_len = racket.racket_len
-    set_racket_size(racket,racket_len,cell_height)
-    racket_y_position = map_rect.bottom - cell_height
-    set_racket_pos = (racket_x_position, racket_y_position)
-
-    racket_rect = pygame.Rect(racket_x_position, racket_y_position, racket_len, cell_height)
-
-    pygame.draw.rect(win, racket_color, racket_rect)
-
 def draw_ball(map_rect, cell_height):
     global racket_x_position
     ball = current_map.map_ball[0]
@@ -109,7 +96,7 @@ def draw_map():
                 brick_color = brick.brick_color
                 brick_rect = pygame.Rect(brick.x_left, brick.y_top, brick.width, brick.height)
                 pygame.draw.rect(win, brick_color, brick_rect)
-    draw_racket(map_rect, cell_height)
+    draw_racket(win, racket_x_position,current_map.map_racket[0], map_rect, cell_height)
     draw_ball(map_rect, cell_height)
    
 ball_physics = BallPhysics(current_map, ball, current_map.map_racket[0], current_map.map)
