@@ -20,8 +20,9 @@ WINDOW_HEIGHT = 1200
 
 # Dimensiones zona de juego
 GAME_ZONE_X = 50  # La zona de juego comienza en el pixel 50
+GAME_ZONE_Y = 150  # La zona de juego comienza en el pixel 150
 GAME_ZONE_WIDTH = 700  # La zona de juego tiene 700 pixels de ancho
-
+GAME_ZONE_HEIGHT = 900  # La zona de juego tiene 900 pixels de alto
 
 # Fuentes
 FONT_SIZE = 36

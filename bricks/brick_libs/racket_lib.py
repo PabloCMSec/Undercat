@@ -7,9 +7,12 @@ class Racket:
         self.color = color
         self.speed = speed  # pixel/s
         self.x = (WINDOW_WIDTH - self.racket_len) // 2  # Posición inicial de la raqueta
+        self.y = 0  # Posición y del ladrillo
+        self.width = 0  # Ancho del ladrillo
+        self.height = 0  # Altura del ladrillo
 
     def __repr__(self) -> str:
-        return f"Racket(racket_id={self.racket_id}, racket_len={self.racket_len}, color={self.color}, speed={self.speed})"
+        return f"Racket(racket_id={self.racket_id}, racket_len={self.racket_len}, color={self.color}, speed={self.speed}, x={self.x}, y={self.y}, width={self.width}, height={self.height})"
 
     def move(self, direction):
         self.x += self.speed * direction
@@ -26,3 +29,11 @@ def get_racket_by_id(racket_id:str) -> dict:
         return racket_library[racket_id]
     else:
         return None
+
+def set_racket_pos(self, x_left: int, y_top: int):
+    self.x_left = x_left
+    self.y_top = y_top
+
+def set_racket_size(self, width: int, height: int):
+    self.width = width
+    self.height = height
