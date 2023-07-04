@@ -5,7 +5,7 @@ from constants import *
 from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
                                handle_button_click, handle_map_selection_click,
                                buttons, map_selection_buttons, map_buttons)
-from brick_libs.game_lib import (center_racket)
+from brick_libs.game_lib import (center_racket, format_time)
 from brick_libs.map_lib import map_library
 from brick_libs.ball_lib import Ball
 from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
@@ -39,11 +39,6 @@ racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
 start_label_font = pygame.font.Font(arcade_font_path, 100)
 start_label = start_label_font.render("COMENZAR", True, WHITE)
 start_label_rect = start_label.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
-
-def format_time(seconds):
-    minutes = seconds // 60
-    seconds = seconds % 60
-    return f'{minutes:02d}:{seconds:02d}'
 
 def draw_window():
     win.fill(DARK_GRAY)
