@@ -5,6 +5,7 @@ from constants import *
 from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
                                handle_button_click, handle_map_selection_click,
                                buttons, map_selection_buttons, map_buttons)
+from brick_libs.game_lib import (center_racket)
 from brick_libs.map_lib import map_library
 from brick_libs.ball_lib import Ball
 from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
@@ -38,12 +39,6 @@ racket_x_position = (WINDOW_WIDTH - current_map.map_racket[0].racket_len) // 2
 start_label_font = pygame.font.Font(arcade_font_path, 100)
 start_label = start_label_font.render("COMENZAR", True, WHITE)
 start_label_rect = start_label.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
-
-def center_racket():
-    global racket_x_position
-    racket = current_map.map_racket[0]
-    racket_len = racket.racket_len
-    racket_x_position = (WINDOW_WIDTH - racket_len) // 2
 
 def format_time(seconds):
     minutes = seconds // 60
@@ -157,7 +152,7 @@ while running:
                         current_map, selected_map, show_map_selection = handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library)
                         show_start_label = True
                         game_started = False
-                        center_racket()
+                        center_racket(racket_x_position,current_map.map_racket[0])
                 for map_id, info in map_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         selected_map = map_id
@@ -169,7 +164,7 @@ while running:
                         show_map_selection = handle_button_click(buttons, button)
                         show_start_label = True
                         game_started = False
-                        center_racket()
+                        center_racket(racket_x_position,current_map.map_racket[0])
 
     ball_physics.update()  # Actualizar la posición de la bola
     draw_window()
