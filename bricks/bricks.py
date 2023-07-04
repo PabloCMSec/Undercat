@@ -134,7 +134,7 @@ while running:
                         current_map, selected_map, show_map_selection = handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library)
                         show_start_label = True
                         game_started = False
-                        center_racket(racket_x_position,current_map.map_racket[0])
+                        racket_x_position = center_racket(racket_x_position,current_map.map_racket[0])
                 for map_id, info in map_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         selected_map = map_id
@@ -146,7 +146,8 @@ while running:
                         show_map_selection = handle_button_click(buttons, button)
                         show_start_label = True
                         game_started = False
-                        center_racket(racket_x_position,current_map.map_racket[0])
+                        racket_x_position = center_racket(racket_x_position,current_map.map_racket[0])
+
 
     ball_physics.update()  # Actualizar la posición de la bola
     draw_window()

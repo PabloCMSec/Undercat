@@ -8,6 +8,7 @@ from brick_libs.racket_lib import racket_library, set_racket_pos, set_racket_siz
 def center_racket(racket_x_position,racket):
     racket_len = racket.racket_len
     racket_x_position = (WINDOW_WIDTH - racket_len) // 2
+    return racket_x_position
 
 def format_time(seconds):
     minutes = seconds // 60
@@ -19,7 +20,6 @@ def draw_racket(win, racket_x_position, racket, map_rect, cell_height):
     racket_len = racket.racket_len
     set_racket_size(racket,racket_len,cell_height)
     racket_y_position = map_rect.bottom - cell_height
-    set_racket_pos = (racket_x_position, racket_y_position)
 
     racket_rect = pygame.Rect(racket_x_position, racket_y_position, racket_len, cell_height)
 
