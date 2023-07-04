@@ -5,7 +5,7 @@ from constants import *
 from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
                                handle_button_click, handle_map_selection_click,
                                buttons, map_selection_buttons, map_buttons)
-from brick_libs.game_lib import (center_racket, format_time, draw_racket,draw_start_ball)
+from brick_libs.game_lib import (center_racket, format_time, draw_racket, draw_start_ball, draw_ball)
 from brick_libs.map_lib import map_library
 from brick_libs.ball_lib import Ball
 from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
@@ -63,19 +63,6 @@ def draw_window():
 
     if show_start_label:
         win.blit(start_label, start_label_rect)
-
-def draw_ball(map_rect, cell_height):
-    global racket_x_position
-    ball = current_map.map_ball[0]
-    ball_radius = ball.radius
-    ball_color = ball.color
-
-    ball_x = racket_x_position + current_map.map_racket[0].racket_len // 2
-    ball_y = map_rect.bottom - cell_height - ball_radius
-
-    ball_pos = (ball_x, ball_y)
-
-    pygame.draw.circle(win, ball_color, ball_pos, ball_radius)
 
 def draw_map():
     rows = len(current_map.map)
