@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from brick_libs.map_lib import map_library
+from brick_libs.brick_lib import set_brick_index, set_brick_pos, set_brick_size
 from brick_libs.racket_lib import racket_library, set_racket_pos, set_racket_size
 
 
@@ -42,3 +43,23 @@ def draw_ball(win, racket_x_position, racket_y_position, ball):
     ball_pos = (racket_x_position, racket_y_position)
 
     pygame.draw.circle(win, ball_color, ball_pos, ball_radius)
+
+def draw_bricks(win, current_map, map_rect):
+    rows = len(current_map.map)
+    cols = len(current_map.map[0])
+    cell_width = (GAME_ZONE_WIDTH // cols)
+    cell_height = (GAME_ZONE_HEIGHT // rows)
+
+    for y in range(rows):
+        for x in range(cols):
+            brick = current_map.map[y][x]
+            if brick is not None:
+                set_brick_index(brick, x, y)
+                set_brick_pos(brick, map_rect.left + x * cell_width, map_rect.top + y * cell_height)
+                set_brick_size(brick, cell_width, cell_height)
+                current_map.map[y][x] = brick
+                brick_color = brick.brick_color
+                brick_rect = pygame.Rect(brick.x_left, brick.y_top, brick.width, brick.height)
+                pygame.draw.rect(win, brick_color, brick_rect)
+    
+    return current_map
