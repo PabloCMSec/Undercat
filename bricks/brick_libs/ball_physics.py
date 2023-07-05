@@ -1,6 +1,7 @@
 import pygame
 from pygame.math import Vector2
-from constants import WINDOW_WIDTH, WINDOW_HEIGHT
+from constants import *
+from brick_libs.ball_lib import Ball
 
 class BallPhysics:
     def __init__(self, map, ball, racket, bricks):
@@ -23,6 +24,8 @@ class BallPhysics:
             self.check_wall_collision()
             self.check_racket_collision()
             self.check_brick_collision()
+
+            self.ball.update()
 
     def check_wall_collision(self):
         if self.ball.position.x - self.ball.radius <= 0 or self.ball.position.x + self.ball.radius >= WINDOW_WIDTH:

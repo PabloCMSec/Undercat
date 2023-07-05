@@ -2,15 +2,23 @@ import pygame
 import time
 from pygame.locals import *
 from constants import *
-from brick_libs.ui_lib import (draw_buttons, draw_map_selection, draw_close_button,
-                               handle_button_click, handle_map_selection_click,
-                               buttons, map_selection_buttons, map_buttons)
-from brick_libs.game_lib import Game, format_time
-from brick_libs.map_lib import map_library
 from brick_libs.ball_lib import Ball
+from brick_libs.ball_physics import BallPhysics
 from brick_libs.brick_lib import set_brick_index, set_brick_size, set_brick_pos
 from brick_libs.racket_lib import Racket
-from brick_libs.ball_physics import BallPhysics
+from brick_libs.map_lib import map_library
+from brick_libs.ui_lib import (
+    draw_buttons,
+    draw_map_selection,
+    draw_close_button,
+    handle_button_click,
+    handle_map_selection_click,
+    buttons,
+    map_selection_buttons,
+    map_buttons,
+)
+from brick_libs.game_lib import Game, format_time
+
 
 def draw_window():
     win.fill(DARK_GRAY)
@@ -64,7 +72,7 @@ start_label_font = pygame.font.Font(arcade_font_path, 100)
 start_label = start_label_font.render("COMENZAR", True, WHITE)
 start_label_rect = start_label.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
  
-# ball_physics = BallPhysics(current_map, ball, current_map.rackets[0], current_map.map)
+ball_physics = BallPhysics(current_map, current_map.balls[0], current_map.rackets[0], current_map.bricks)
 
 running = True
 while running:
@@ -115,9 +123,9 @@ while running:
                         game_started = False
                         game.center_racket()
 
-
-    # ball_physics.update()  # Actualizar la posición de la bola
+    ball_physics.update()  # Agrega esta línea para actualizar la posición de la bola
     draw_window()
     pygame.display.flip()
 
 pygame.quit()
+
