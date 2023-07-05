@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.locals import *
 from constants import *
 from brick_libs.map_lib import map_library
@@ -22,12 +23,18 @@ class Game:
         self.cell_width = (GAME_ZONE_WIDTH // self.cols)
         self.cell_height = (GAME_ZONE_HEIGHT // self.rows)
         self.map_rect = pygame.Rect(self.game_zone_x, self.game_zone_y, self.game_zone_width, self.game_zone_height)
-        self.time = 0
+        self.elapsed_time = 0
         self.score = 0
 
     def __repr__(self):
         return f'Game(map={self.map}, game_zone_x={self.game_zone_x}, game_zone_y={self.game_zone_y}, game_zone_width={self.game_zone_width}, game_zone_height={self.game_zone_height}, cols={self.cols}, rows={self.rows}, cell_width={self.cell_width}, cell_height={self.cell_height}, map_rect={self.map_rect}, time={self.time}, score={self.score})'
 
+
+    def start_time(self):
+        self.elapsed_time = time.time()
+    
+    def update_time(self):
+        self.elapsed_time = int(time.time() - start_time)
 
     def center_racket(self):
         racket = self.map.rackets[0]
@@ -80,6 +87,7 @@ class Game:
                     pygame.draw.rect(self.win, brick_color, brick_rect)
 
     def draw_map(self):
+        pygame.draw.rect(self.win, self.map.color, self.game_zone_x, self.game_zone_y, self.game_zone_width, self.game_zone_height)
         self.draw_bricks()
         self.draw_racket()
         self.draw_ball()
