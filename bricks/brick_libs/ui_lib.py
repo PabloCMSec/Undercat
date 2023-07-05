@@ -39,6 +39,9 @@ class Window:
         }
 
         pygame.display.set_caption(TITLE)
+        self.get_maps()
+
+
 
     def draw_game_window(self):
         self.win.fill(DARK_GRAY)
@@ -50,6 +53,7 @@ class Window:
         self.draw_buttons()
         self.draw_close_button()
         self.draw_start_text()
+        self.draw_map_selection()  
 
     def get_maps(self):
         for i, id in enumerate(map_library.keys()):
