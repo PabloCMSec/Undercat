@@ -40,7 +40,7 @@ class Window:
 
         pygame.display.set_caption(TITLE)
 
-    def start_game_window(self):
+    def draw_game_window(self):
         self.win.fill(DARK_GRAY)
         self.draw_top_boxes()
         self.draw_time()
@@ -51,22 +51,14 @@ class Window:
         self.draw_close_button()
         self.draw_start_text()
 
-    def update_game_window(self):
-        self.draw_time()
-        self.draw_life()
-        self.draw_score()
-        self.game.draw_game()
-        self.draw_map_selection()
-        self.draw_start_text()
-
     def get_maps(self):
         for i, id in enumerate(map_library.keys()):
-            self.map_buttons[id] = {'color': MAP_BUTTON_COLOR, 'rect': pygame.Rect(300, 250 + i * 60, 200, 50)}
+            self.map_buttons[id] = {'color': MAP_BUTTON_COLOR, 'rect': pygame.Rect(300, 250 + i *60, 200, 50)}
 
     def draw_top_boxes(self):
         pygame.draw.rect(self.win, LIGHT_GRAY, (40, 50, 230, 60))
         pygame.draw.rect(self.win, LIGHT_GRAY, (280, 50, 230, 60))
-        pygame.draw.rect(self.win, LIGHT_GRAY, (520, 50, 230,60))
+        pygame.draw.rect(self.win, LIGHT_GRAY, (520, 50, 230, 60))
 
     def draw_time(self):
         time_text = self.font_time.render(f'Tiempo: {format_time(self.game.elapsed_time)}', True, LIGHT_BLUE)
@@ -130,5 +122,3 @@ class Window:
             self.show_map_selection = False
         else:
             self.selected_map = button
-            for id, button in self.map_buttons.items():
-                button['color'] = MAP_BUTTON_COLOR if id != self.selected_map else SELECTED_MAP_BUTTON_COLOR

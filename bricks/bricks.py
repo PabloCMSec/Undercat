@@ -10,7 +10,7 @@ from brick_libs.ui_lib import Window
 from brick_libs.game_lib import Game, format_time
 
 play = Window()
-play.start_game_window()
+play.draw_game_window()
  
 #ball_physics = BallPhysics(current_map, current_map.balls[0], current_map.rackets[0], current_map.bricks)
 
@@ -21,7 +21,7 @@ while running:
         play.show_start_label = False
         play.game_started = True
         play.game.start_timer()
-        # ball_physics.start_movement()
+        #ball_physics.start_movement()
 
     if play.game_started:
         play.game.update_timer()
@@ -43,29 +43,28 @@ while running:
             x, y = event.pos
             if x > WINDOW_WIDTH - 50 and y < 50:
                 running = False
-            elif show_map_selection:
-                for button, info in map_selection_buttons.items():
+            elif play.show_map_selection:
+                for button, info in play.map_selection_buttons.items():
                     if info['rect'].collidepoint(x, y):
-                        current_map, selected_map, show_map_selection = handle_map_selection_click(map_selection_buttons, map_buttons, button, current_map, selected_map, map_library)
-                        screen.show_start_label = True
-                        game_started = False
+                        play.handle_map_selection_click(button)
+                        play.show_start_label = True
+                        play.game_started = False
                         play.game.center_racket()
-                for id, info in map_buttons.items():
+                for id, info in play.map_buttons.items():
                     if info['rect'].collidepoint(x, y):
                         selected_map = id
-                        for id, button in map_buttons.items():
+                        for id, button in play.map_buttons.items():
                             button['color'] = MAP_BUTTON_COLOR if id != selected_map else SELECTED_MAP_BUTTON_COLOR
             else:
-                for button, info in buttons.items():
+                for button, info in play.buttons.items():
                     if info['rect'].collidepoint(x, y):
-                        show_map_selection = handle_button_click(buttons, button)
-                        screen.show_start_label = True
-                        game_started = False
+                        play.handle_button_click(button)
+                        play.show_start_label = True
+                        play.game_started = False
                         play.game.center_racket()
 
-    #ball_physics.update()  # Agrega esta línea para actualizar la posición de la bola
-    play.update_game_window()
+    #ball_physics.update()
+    play.draw_game_window()
     pygame.display.flip()
 
 pygame.quit()
-
