@@ -34,3 +34,4 @@ DEFAULT_FONT = 'media/fonts/arcade.ttf'
 
 #Textos
 TITLE = 'Bricks AI'
+START_TEXT='COMENZAR'

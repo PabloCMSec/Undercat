@@ -23,6 +23,7 @@ class Game:
         self.cell_width = (GAME_ZONE_WIDTH // self.cols)
         self.cell_height = (GAME_ZONE_HEIGHT // self.rows)
         self.map_rect = pygame.Rect(self.game_zone_x, self.game_zone_y, self.game_zone_width, self.game_zone_height)
+        self.start_time = 0
         self.elapsed_time = 0
         self.score = 0
 
@@ -30,11 +31,11 @@ class Game:
         return f'Game(map={self.map}, game_zone_x={self.game_zone_x}, game_zone_y={self.game_zone_y}, game_zone_width={self.game_zone_width}, game_zone_height={self.game_zone_height}, cols={self.cols}, rows={self.rows}, cell_width={self.cell_width}, cell_height={self.cell_height}, map_rect={self.map_rect}, time={self.time}, score={self.score})'
 
 
-    def start_time(self):
-        self.elapsed_time = time.time()
+    def start_timer(self):
+        self.start_time = int(time.time())
     
-    def update_time(self):
-        self.elapsed_time = int(time.time() - start_time)
+    def update_timer(self):
+        self.elapsed_time = int(time.time() - self.start_time)
 
     def center_racket(self):
         racket = self.map.rackets[0]
@@ -86,8 +87,8 @@ class Game:
                     brick_rect = pygame.Rect(brick.x_left, brick.y_top, brick.width, brick.height)
                     pygame.draw.rect(self.win, brick_color, brick_rect)
 
-    def draw_map(self):
-        pygame.draw.rect(self.win, self.map.color, self.game_zone_x, self.game_zone_y, self.game_zone_width, self.game_zone_height)
+    def draw_game(self):
+        pygame.draw.rect(self.win, self.map.color, self.map_rect)
         self.draw_bricks()
         self.draw_racket()
         self.draw_ball()
