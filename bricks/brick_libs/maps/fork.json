@@ -1,8 +1,9 @@
 {
     "name" :"fork",
-    "ball": ["basic"],
-    "racket": ["basic"],
-    "map": [
+    "type" : "easy",
+    "balls": ["basic"],
+    "rackets": ["basic"],
+    "bricks": [
         ["blue","red","green","blue","red","blue","green","blue"],
         ["red","blue","red","green","blue","green","red","blue"],
         ["green","blue","green","red","blue","green","blue","green"],

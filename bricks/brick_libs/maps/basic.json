@@ -1,8 +1,9 @@
 {
     "name" :"basic",
-    "ball": ["basic"],
-    "racket": ["basic"],
-    "map": [
+    "type" : "easy",
+    "balls": ["basic"],
+    "rackets": ["basic"],
+    "bricks": [
         ["red","blue","red","green","blue","green","red","blue"],
         ["green","blue","green","red","blue","green","blue","green"],
         ["blue","red","green","blue","red","blue","green","blue"],

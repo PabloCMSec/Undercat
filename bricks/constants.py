@@ -30,3 +30,7 @@ TIME_FONT_SIZE = 39
 SCORE_FONT_SIZE = 38
 LIFE_FONT_SIZE = 56
 BUTTON_FONT_SIZE = 25
+DEFAULT_FONT = 'media/fonts/arcade.ttf'
+
+#Textos
+TITLE = 'Bricks AI'
