@@ -78,7 +78,7 @@ class Game:
                     brick_color = brick.brick_color
                     brick_rect = pygame.Rect(brick.x_left, brick.y_top, brick.width, brick.height)
                     pygame.draw.rect(self.win, brick_color, brick_rect)
-    
+
     def draw_map(self):
         self.draw_bricks()
         self.draw_racket()
@@ -93,7 +93,7 @@ def format_time(seconds):
 def _get_bricks_from_map(bricks):
     final_bricks = []
     for row in bricks:
-        final_col=[]
+        final_col = []
         for i in row:
             brick = None
             if i != "":

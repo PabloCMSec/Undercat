@@ -19,7 +19,6 @@ def draw_window():
     pygame.draw.rect(win, LIGHT_GRAY, (280, 50, 230, 60))
     pygame.draw.rect(win, LIGHT_GRAY, (520, 50, 230, 60))
 
-    game.draw_bricks()
 
     time_text = font_time.render(f'Tiempo: {format_time(elapsed_time)}', True, LIGHT_BLUE)
     lives_text = font_life.render('Vidas: 3', True, WHITE)
@@ -29,7 +28,8 @@ def draw_window():
     win.blit(score_text, (530, 60))
 
     pygame.draw.rect(win, current_map.map_color, (50, 150, 700, 900))
-
+    game.draw_map()
+    
     draw_buttons(win, buttons, button_font)
     draw_map_selection(win, show_map_selection, map_selection_buttons, map_buttons, button_font)
     draw_close_button(win)
