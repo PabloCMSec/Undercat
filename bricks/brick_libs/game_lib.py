@@ -4,7 +4,7 @@ from constants import *
 from brick_libs.map_lib import map_library
 from brick_libs.brick_lib import brick_library, get_brick_by_id, set_brick_index, set_brick_pos, set_brick_size
 from brick_libs.racket_lib import racket_library, get_racket_by_id
-from brick_libs.ball_lib import Ball, get_ball_by_id, get_ball_pos
+from brick_libs.ball_lib import Ball, get_ball_by_id
 
 class Game:
     def __init__(self, win, map):
@@ -62,7 +62,7 @@ class Game:
         ball = self.map.balls[0]
         ball_radius = ball.radius
         ball_color = ball.color
-        ball_pos = get_ball_pos(ball)
+        ball_pos = ball.get_ball_pos()
 
         pygame.draw.circle(self.win, ball_color, ball_pos, ball_radius)
 

@@ -20,18 +20,18 @@ class Ball:
     def set_ball_pos(self, x ,y):
         self.position = pygame.Vector2(x, y)
 
-def get_ball_pos(self):
-    x = self.position.x
-    y = self.position.y
-    return x, y
+    def get_ball_pos(self):
+        x = self.position.x
+        y = self.position.y
+        return x, y
 
-def get_ball_x_pos(self):
-    x = self.position.x
-    return x
+    def get_ball_x_pos(self):
+        x = self.position.x
+        return x
 
-def get_ball_y_pos(self):
-    y = self.position.y
-    return y
+    def get_ball_y_pos(self):
+        y = self.position.y
+        return y
 
 ball_basic = Ball("basic", 10, (255, 204, 255), 5)
 
