@@ -1,6 +1,7 @@
 {
     "name" :"basic",
     "type" : "easy",
+    "color": [47,79,79],
     "balls": ["basic"],
     "rackets": ["basic"],
     "bricks": [

@@ -34,6 +34,7 @@ class Ball:
         return y
 
 ball_basic = Ball("basic", 10, (255, 204, 255), 5)
+ball_extra = Ball("extra", 10, (255, 204, 255), 7)
 
 ball_library = {
     ball_basic.ball_id: ball_basic

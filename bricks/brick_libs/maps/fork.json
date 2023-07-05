@@ -1,6 +1,7 @@
 {
     "name" :"fork",
     "type" : "easy",
+    "color": [51,0,25],
     "balls": ["basic"],
     "rackets": ["basic"],
     "bricks": [
