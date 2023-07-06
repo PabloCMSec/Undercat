@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from constants import *
-from brick_libs.map_lib import map_library
+from brick_libs.map_lib import Map, map_library
 from brick_libs.game_lib import Game, format_time
 
 class Window:
@@ -39,9 +39,8 @@ class Window:
         }
 
         pygame.display.set_caption(TITLE)
+
         self.get_maps()
-
-
 
     def draw_game_window(self):
         self.win.fill(DARK_GRAY)
@@ -58,6 +57,9 @@ class Window:
     def get_maps(self):
         for i, id in enumerate(map_library.keys()):
             self.map_buttons[id] = {'color': MAP_BUTTON_COLOR, 'rect': pygame.Rect(300, 250 + i *60, 200, 50)}
+
+    def set_selected_map(self, map):
+        self.selected_map = map
 
     def draw_top_boxes(self):
         pygame.draw.rect(self.win, LIGHT_GRAY, (40, 50, 230, 60))
@@ -121,8 +123,7 @@ class Window:
         if button == 'Aceptar':
             if self.selected_map is not None:
                 self.current_map = map_library[self.selected_map]
+                self.game.set_map(self.current_map)
             self.show_map_selection = False
         elif button == 'Cancelar':
             self.show_map_selection = False
-        else:
-            self.selected_map = button
